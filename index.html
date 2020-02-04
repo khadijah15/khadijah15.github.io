@@ -1,7 +1,8 @@
-<doctype>
+<!DOCTYPE html>
 <html>
 <head>
 <title> First Git Hub Repo </title>
+<meta charset="utf-8">
 
 
 
@@ -11,6 +12,48 @@
 <body>
 
 <h1> First Git Hub </h1>
+
+
+<div id= "someContent">
+	</div>
+
+<button onclick="firstFunction(0)"> Click Me </button>
+
+
+<button onclick="firstFunction(1)"> Also Click Me </button>
+
+
+<button onclick="firstFunction(2)"> Also Click Me</button>
+
+
+
+
+
+
+<script>
+	
+function firstFunction(quizVal){
+
+	value = quizVal;
+
+	switch(value) {
+		case 0:
+		console.log('a hike');
+		//document.getElementByID('someContent').
+		//innerHTML = '<h3> a hike </h3>';
+		break;
+		case 1:
+		console.log('Netflix');
+		break;
+		case 2:
+		console.log('Dinner');
+		break;
+	}
+
+	
+}
+</script>
+
 </body>
 
 
