@@ -1,0 +1,227 @@
+
+<doctype>
+<html>
+
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+
+</head>
+<style>
+
+
+body {
+  font: 90% system-ui, sans-serif;
+  box-sizing: border-box;
+  overflow: scroll;
+  margin: 0px;
+  background-color: #403D36;
+  padding-right: 30px;
+  
+}
+
+
+.header {
+  width: 100%;
+  height: 80px;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.left-content {
+  width: 30vw;
+  padding-right: 490px;
+
+}
+
+
+
+h1 {
+  margin: 0 0 1rem 0;
+  font-weight: 900;
+  font-size: 3rem;
+  text-transform: uppercase;
+  color: #8C0E03;
+  padding-top: 10px;
+
+}
+
+.para {
+  color: #ffff;
+}
+
+.button {
+  background-color: #8C0E03;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover {opacity: 1}
+
+
+.accordion {
+  background-color: #8C0E03;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  height:100px;
+  display: flex;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 30px;
+  transition: 0.4s;
+  font: 40% system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.active, .accordion:hover {
+  background-color: #403D36;
+}
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.panel {
+  padding: 0 10px;
+  background-color: white;
+  max-height: 0;
+  overflow: scroll;
+  width:100%;
+  height: 200%;
+  transition: max-height 0.2s ease-out;
+}
+
+h2{
+	font: 100% system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  color: #777;
+}
+
+p{
+	font-family:  futura;
+	font-size: 1rem;
+
+}
+
+.button {
+  background-color: #8C0E03;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  text-align: center;
+  font-size: 14px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover {opacity: 1}
+
+
+</style>
+
+<header class="header">
+<body>
+<div class="background"></div>
+  <div class="left-content">
+    
+    <h1>Big Music Club Conclomerate’s</h1>
+    <p></p>
+    <p class="para">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+    </p>
+
+
+
+
+
+<button class="accordion">Big Hall</button>
+<div class="panel">
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  
+  
+</div>
+
+<button class="accordion">Smokey Club</button>
+<div class="panel">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  
+</div>
+
+<button class="accordion">Little Café</button>
+<div class="panel">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  
+</div>
+
+
+
+
+
+<div id="canvas" class="container group">
+    
+    <div id="primaryContent" class="group">
+       <button id="get-details">Get Details about Upcoming events </button>
+
+       <div id="results"></div>
+        
+    </div> 
+    
+</div>
+
+
+</div>
+
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+
+<script src="script.js"></script>
+</body>
+
+</html>
