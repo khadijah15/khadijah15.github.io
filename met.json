@@ -1,0 +1,15 @@
+
+
+
+ {
+        "name": "The Village of La Celle-sous-Moret",
+        "img_src":"https://github.com/khadijah15/khadijah15.github.io/blob/master/02.jpg",
+        "horizon": 0.5,
+        "met_url": "https://www.metmuseum.org/art/collection/search/435908?searchField=Description&amp;sortBy=Relevance&amp;what=Oil+paint&amp;ao=on&amp;showOnly=openAccess&amp;ft=landscapes&amp;offset=60&amp;rpp=20&amp;pos=73"
+    },
+    {
+        "name": "The Village of La Celle-sous-Moret",
+        "img_src":"https://github.com/khadijah15/khadijah15.github.io/blob/master/01.jpg",
+        "horizon": 0.6,
+        "met_url": "https://www.metmuseum.org/art/collection/search/436849"
+    }
