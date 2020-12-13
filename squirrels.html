@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8"/>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css" rel="stylesheet" />
+
+</head>
+<style>
+body{
+	margin:0;
+	padding: 0;
+}
+
+#head{
+height: 500px;
+background-color: #071040;
+}
+
+#content{
+	height: auto;
+	overflow: scroll;
+	background: #010A26;
+	
+
+}
+#map { position: relative;
+      z-index: 0;
+      width: 100%;
+      height: 500px;
+  }
+
+
+h3 {
+  text-align: center;
+  color: #ffff;
+  font-size: 3.5em;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+   padding:0;
+  margin: 0;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translateX(-50%) translateY(-260%);
+
+}
+p {
+  text-align: justify;
+  color: #ffff;
+  font-size: 18px;
+  font-family: 'Open Sans', sans-serif;
+
+  padding:0;
+  margin: 0;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translateX(-50%) translateY(-110%);
+
+}
+.tooltip {  
+        position: absolute;
+        text-align: center;
+        width: auto;   
+        height: auto;
+        padding: 3px;  
+        font: 13px sans-serif;
+        color: white;
+        background: #B9BF04;
+        border: 0px;
+        border-radius: 3px;
+        pointer-events: none;
+    }
+
+
+#p2 {
+
+}
+
+
+
+</style>
+
+<body>
+
+<div id="head">
+
+	 <h3> Squirrels Of Central Park </h3>
+	  <p>
+      If you’ve ever wondered how many squirrels live in New York City’s Central Park, there’s finally an answer: 2,373.
+      That number comes from the first squirrel census of Manhattan’s largest park, conducted by Jamie Allen and more than 300 volunteers who made it their mission to count and observe the rodents living in the 843 acres of green space.
+  </p>
+
+</div>
+
+
+
+<div id="map"></div>
+<div id="info">        
+
+
+
+
+
+</div>
+
+<script>
+
+
+	//Map
+
+	mapboxgl.accessToken = 'pk.eyJ1Ijoia2hhZGlqYWhyYXppIiwiYSI6ImNrYWE0cXgyaDEwOTEydG96bjJqOHhoNzUifQ.97b3BWH3cjI4OjEG5SZVgA';
+    
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/dark-v10',
+        center: [-73.9678, 40.7799],
+        zoom: 13.2,
+        bearing:15,
+        pitch:46,
+        interactive: true
+    });
+
+    //canvas
+
+var container = map.getCanvasContainer();
+    var svg = d3
+      .select(container)
+      .append("svg")
+      .attr("width", "100%")
+      .attr("height", "500")
+      .style("position", "absolute")
+      .style("z-index", 2);
+
+    var tooltip = d3.select("body").append("div") 
+      .attr("class", "tooltip")       
+      .style("opacity", 2);
+
+
+
+
+//loading csv
+
+d3.csv("https://raw.githubusercontent.com/khadijah15/khadijah15.github.io/master/2018_Central_Park_Squirrel_Census_-_Squirrel_Data.csv", function(data) {
+  console.log(data);
+
+
+ data = data.map(function(d) { return {x: + d.X, y: +d.Y,
+   id: d["Unique Squirrel ID"], 
+   Age: d.Age, Location: d.Location,
+   color2: d["Highlight Fur Color"].toLowerCase(),
+   color: d["Primary Fur Color"].toLowerCase(),
+   climbing: d.Climbing, 
+   running: d.Running, eating: d.Eating, chasing: d.Chasing } });
+
+
+
+
+var dots = svg
+      .selectAll("circle")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("r", 2.5)
+      .style("fill", "white")
+      .style("opacity", 0.5)
+
+      .style("fill", function(d){
+      	
+      	if (d.eating == 'true'){
+        	return "#A6035D" //shocking pink 
+        }
+        else if (d.climbing == 'true') {
+        	//return "#F2D95C" 
+        	return '#FFD226'  //yellow
+        }
+        else if (d.running == 'true') {
+        	return "#022859"  //blue
+        }
+
+        else if (d.chasing == 'true') {
+        	return "#5C7F37" //green
+        }
+
+        else {
+        	//console.log('here', d)
+          	return "#FF7D00"  //orange
+        }
+      })
+      .on("mouseover", function(d){
+          tooltip.transition()   
+            .duration(200)    
+            .style("opacity", 1);
+          
+          tooltip.html(
+            "ID: " + d.id + "<br/>"+ 
+           
+            "Age:" + d.Age + "<br/>"+ 
+
+            "Location:" + d.Location + "<br/>"
+
+
+          )
+          .style("left", (d3.event.pageX) + "px")   
+          .style("top", (d3.event.pageY - 28) + "px");  
+      })
+      .on("mosueout", function(d){
+        tooltip.transition()    
+          .duration(100)    
+          .style("opacity", 0); 
+      });
+      function project(d) {
+        return map.project(new mapboxgl.LngLat(d[0], d[1]));
+      }
+
+      function render() {
+        dots
+          .attr("cx", function(d) {
+            return project([d.x, d.y]).x;
+          })
+          .attr("cy", function(d) {
+            return project([d.x, d.y]).y;
+          });
+      }
+
+      map.on("viewreset", render);
+      map.on("move", render);
+      map.on("moveend", render);
+      render(); // Call once to render
+
+
+});
+
+
+//  legends
+svg.append("circle").attr("cx",150).attr("cy",230).attr("r", 6).style("fill", "#A6035D")
+svg.append("circle").attr("cx",150).attr("cy",260).attr("r", 6).style("fill", "#FFD226")
+svg.append("circle").attr("cx",150).attr("cy",290).attr("r", 6).style("fill", "#022859")
+svg.append("circle").attr("cx",150).attr("cy",320).attr("r", 6).style("fill", "#5C7F37")
+svg.append("circle").attr("cx",150).attr("cy",360).attr("r", 6).style("fill", "#FF7D00")
+
+svg.append("text").attr("x", 170).attr("y", 230).text("Eating").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 170).attr("y", 260).text("Climbing").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 170).attr("y", 290).text("Running").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 170).attr("y", 320).text("Chasing").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 170).attr("y", 360).text("Doing nothing").style("font-size", "15px").attr("alignment-baseline","middle")
+
+
+
+
+
+</script>
+</body>
+</html> 
